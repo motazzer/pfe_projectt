@@ -58,7 +58,6 @@ class UserController extends AbstractController
     public function updateUser($id, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-
         $user = $this->entityManager->getRepository(User::class)->find($id);
 
         if (!$user) {

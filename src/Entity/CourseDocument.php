@@ -20,7 +20,7 @@ class CourseDocument
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 16777215)]
+    #[ORM\Column(length: 16777215, nullable: true)]
     private ?string $content = null;
 
 
@@ -32,18 +32,28 @@ class CourseDocument
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
 
-
     #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'documents')]
     private Collection $questions;
 
-    #[ORM\Column(type: Types::BLOB)]
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $vectors = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $status = 'unverified' ;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $filePath = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $gg = null;
+
+
+
 
     public function __construct()
     {
         $this->questions = new ArrayCollection();
     }
-
 
 
     public function getId(): ?int
@@ -135,6 +145,42 @@ class CourseDocument
     public function setVectors($vectors): static
     {
         $this->vectors = $vectors;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getFilePath(): ?string
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath(?string $filePath): static
+    {
+        $this->filePath = $filePath;
+
+        return $this;
+    }
+
+    public function getGg(): ?array
+    {
+        return $this->gg;
+    }
+
+    public function setGg(?array $gg): static
+    {
+        $this->gg = $gg;
 
         return $this;
     }
