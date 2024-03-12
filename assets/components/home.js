@@ -1,11 +1,12 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import '../styles/Home.css';
+import Footer from "./footer_and_header/footer/Footer";
+
 
 class Home extends React.Component {
     render() {
         return (
-            <div className="home-container">
+            <div>
                 <h1>Welcome to Your Education Assistant!</h1>
                 <div>
                     <Link to="/login">Login</Link>

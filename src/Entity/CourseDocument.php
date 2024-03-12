@@ -44,10 +44,6 @@ class CourseDocument
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?array $gg = null;
-
-
 
 
     public function __construct()
@@ -173,17 +169,9 @@ class CourseDocument
         return $this;
     }
 
-    public function getGg(): ?array
+    public function getUploadedByEmail(): ?string
     {
-        return $this->gg;
+        return $this->User->getEmail();
     }
-
-    public function setGg(?array $gg): static
-    {
-        $this->gg = $gg;
-
-        return $this;
-    }
-
 
 }

@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
+
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
@@ -64,6 +66,7 @@ function Login() {
                 <button type="submit">Login</button>
             </form>
         </div>
+
     );
 }
 const isAuthenticated = () => {

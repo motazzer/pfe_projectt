@@ -5,10 +5,8 @@ namespace App\MessageHandler;
 use App\Entity\CourseDocument;
 use App\Message\TransformTextToVectors;
 use Doctrine\ORM\EntityManagerInterface;
-use Phpml\Tokenization\WordTokenizer;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use voku\helper\StopWords;
-use voku\helper\StopWordsLanguageNotExists;
+
 
 final class TransformTextToVectorsHandler implements MessageHandlerInterface
 {
@@ -26,52 +24,27 @@ final class TransformTextToVectorsHandler implements MessageHandlerInterface
         $cleanedText = $this->cleanText($document->getContent());
         $vectors = $this->transformTextToVectors($cleanedText);
 
-        $document->setGg($cleanedText);
         $document->setVectors($vectors);
         $this->entityManager->flush();
     }
 
-    /**
-     * @throws StopWordsLanguageNotExists
-     */
     private function cleanText(string $text): array
     {
-        $cleanedText = preg_replace('/[^\p{L}\p{N}\s]/u', '', $text);
-
-        $lower = strtolower($cleanedText);
-        echo "Lowercase text: ";
-        print_r($lower);
-
-        $tokenizer = new WordTokenizer();
-        $tokens = $tokenizer->tokenize($lower);
-
-        $stopWords = new StopWords();
-        $stopword = $stopWords->getStopWordsFromLanguage('fr');
-
-        $cleanedTokens = array_diff($tokens, $stopword);
-        echo "cleanedTokens : ";
-        print_r($cleanedTokens);
-
-        return $cleanedTokens;
+        $text = mb_strtolower($text);
+        $text = preg_replace('/[^a-z0-9\s.\p{L}]/u', '', $text);
+        $text = preg_replace('/\s+/', ' ', $text);
+        $lines = explode('.', $text);
+        $lines = array_filter($lines, function($line) {
+            return !is_numeric(trim($line));
+        });
+        $lines = array_map('trim', $lines);
+        echo "lines :";
+        print_r($lines);
+        return $lines;
     }
 
     private function transformTextToVectors(array $tokens): string
     {
-        /**
-        // Use TfIdfTransformer for feature extraction
-        $tfIdfTransformer = new TfIdfTransformer($tokens);
-
-        // Get the Tf-Idf matrix
-        $tfIdfMatrix = $tfIdfTransformer->transform($tokens);
-
-        // Convert Tf-Idf matrix to vectors
-        $vectors = [];
-        foreach ($tfIdfMatrix as $row) {
-            $vectors[] = implode(',', $row);
-        }
-
-        return $vectors;
-         * */
         $binaryData = random_bytes(10);
         return $binaryData;
     }

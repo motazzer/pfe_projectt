@@ -47,7 +47,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Question::class, mappedBy: 'user', fetch:'EXTRA_LAZY')]
+    #[Groups(['user'])]
     private Collection $questions;
 
 
@@ -191,10 +192,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return count($this->courseDocuments);
     }
-
-
-
-
 
 
     public function getCreatedAt(): ?\DateTimeImmutable

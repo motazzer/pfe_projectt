@@ -81,7 +81,6 @@ class CourseDocumentCrudController extends AbstractCrudController
 
         $this->addFlash('success', 'Document verified successfully and content transformed into vectors.');
 
-
         $url = $this->adminUrlGenerator
             ->setController(CourseDocumentCrudController::class)
             ->setAction(Action::DETAIL)
