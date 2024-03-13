@@ -20,73 +20,40 @@ class UserController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/api/users', name: 'user_list', methods: ['GET'])]
-    public function listUsers(): JsonResponse
+    #[Route('/api/user', name: 'user_show', methods: ['GET'])]
+    public function showUserProfile(): JsonResponse
     {
-        $users = $this->entityManager->getRepository(User::class)->findAll();
-        $usersData = array_map(function ($user) {
-            return [
-                'id' => $user->getId(),
-                'email' => $user->getEmail(),
-                'firstname' => $user->getFirstname(),
-                'lastname' => $user->getLastname(),
-                'createdAt' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
-                'uploadedFilesCount' => $user->getUploadedFilesCount(),
-            ];
-        }, $users);
-
-        return $this->json($usersData);
-    }
-
-    #[Route('/api/users/{id}', name: 'user_show', methods: ['GET'])]
-    public function showUser($id): JsonResponse
-    {
-        $user = $this->entityManager->getRepository(User::class)->find($id);
-        $usersData = array_map(function ($user) {
-            return [
+        $user = $this->getUser();
+        $usersData = [
                 'firstname' => $user->getFirstname(),
                 'lastname' => $user->getLastname(),
                 'email' => $user->getEmail(),
                 'createdAt' => $user->getCreatedAt()->format('Y-m-d H:i:s'),
                 'uploadedFilesCount' => $user->getUploadedFilesCount(),
             ];
-        }, $user);
         return $this->json($usersData);
     }
 
-    #[Route('/api/users/{id}', name: 'user_update', methods: ['PUT'])]
-    public function updateUser($id, Request $request): JsonResponse
+    #[Route('/api/update-user', name: 'user_update', methods: ['PUT'])]
+    public function updateUserProfile(Request $request): JsonResponse
     {
+        $user = $this->getUser();
         $data = json_decode($request->getContent(), true);
-        $user = $this->entityManager->getRepository(User::class)->find($id);
 
-        if (!$user) {
-            throw $this->createNotFoundException('Utilisateur non trouvé');
+        if (isset($data['firstname'])) {
+            $user->setFirstname($data['firstname']);
+        }
+        if (isset($data['lastname'])) {
+            $user->setLastname($data['lastname']);
+        }
+        if (isset($data['email'])) {
+            $user->setEmail($data['email']);
         }
 
-        $user->setFirstname($data['firstname']);
-        $user->setLastname($data['lastname']);
-        $user->setEmail($data['email']);
         $user->setPassword($data['password']);
 
-
         $this->entityManager->flush();
-
-        return $this->json($user);
+        return $this->json(['message' => 'Profile updated successfully']);
     }
 
-    #[Route('/api/users/{id}', name: 'user_delete', methods: ['DELETE'])]
-    public function deleteUser($id): JsonResponse
-    {
-        $user = $this->entityManager->getRepository(User::class)->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('Utilisateur non trouvé');
-        }
-
-        $this->entityManager->remove($user);
-        $this->entityManager->flush();
-
-        return $this->json(['message' => 'Utilisateur supprimé']);
-    }
 }

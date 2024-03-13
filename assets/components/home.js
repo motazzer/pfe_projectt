@@ -16,6 +16,7 @@ class Home extends React.Component {
                     Our intelligent assistant is here to help you with your studies, provide personalized support,
                     and offer interactive educational resources.
                 </p>
+                <Footer/>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DetailsDocument from "./detailsdocument";
+
 const ManageDocuments = () => {
     const [documents, setDocuments] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
@@ -88,8 +89,11 @@ const ManageDocuments = () => {
     };
 
     const formatContent = (content) => {
-        const lines = content.split('\n');
-        return lines.slice(0, 2).join('\n');
+        if (content) {
+            const lines = content.split('\n');
+            return lines.slice(0, 2).join('\n');
+        }
+        return '';
     };
 
     const filteredDocuments = documents.filter(document =>

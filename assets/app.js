@@ -8,7 +8,7 @@ import Login from "./components/login/Login";
 import Dashboard from "./components/Dashboard";
 import Quiz from './components/Quiz';
 import Chat from './components/Chat';
-import Profile from './components/Profile';
+import Profile from './components/Profile/Profile';
 import Summary from './components/summarysheet';
 import AdminHomepage from './components/Administrator/AdminHomepage';
 import ManageUsers from './components/Administrator/ManageUsers';

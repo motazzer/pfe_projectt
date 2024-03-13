@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from '../Navbar';
 
 const Profile = () => {
-    const { id } = useNavigate();
     const [userData, setUserData] = useState(null);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        fetch(`/api/users/${id}`, {
+        fetch(`/api/user`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -26,7 +24,7 @@ const Profile = () => {
             .catch(error => {
                 console.error('Error fetching user details:', error);
             });
-    }, [id]);
+    }, []);
 
     if (!userData) {
         return <div>Loading...</div>;
@@ -46,3 +44,4 @@ const Profile = () => {
 }
 
 export default Profile;
+
