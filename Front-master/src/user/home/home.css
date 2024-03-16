@@ -1,0 +1,61 @@
+/* home.css */
+
+/* Container styling */
+.container {
+  display: flex;
+  flex-direction: row; /* Align child elements side by side */
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  background-color: #f5f5f5; /* Light grey background */
+  font-family: 'Arial', sans-serif; /* Default font */
+  padding: 0 2rem; /* Add horizontal padding */
+ }
+ 
+ /* Text container styling */
+ .text-container {
+  text-align: center;
+  margin-right: 2rem; /* Space between text and buttons */
+  flex: 3; /* Adjusted to be larger than the button container */
+ }
+ 
+ /* Heading styling */
+ .text-container h1 {
+  font-size: 2.5rem; /* Large heading */
+  color: #333; /* Dark grey text */
+  margin-bottom: 1rem; /* Space between heading and paragraph */
+ }
+ 
+ /* Paragraph styling */
+ .text-container p {
+  font-size: 1.2rem; /* Medium text */
+  color: #666; /* Light grey text */
+  max-width: 600px; /* Limit paragraph width */
+  margin: 0 auto; /* Center paragraph */
+ }
+ 
+ /* Button container styling */
+ .button-container {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  justify-content: center;
+  gap: 1rem; /* Space between buttons */
+  flex: 2; /* Adjusted to be smaller than the text container */
+ }
+ 
+ /* Button styling */
+ .button-container button {
+  padding: 0.75rem 1.5rem; /* Padding inside buttons */
+  font-size: 1rem; /* Button text size */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #4a1369; /* Blue background */
+  color: #f5f1f1; /* White text */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Smooth transition for background color */
+ }
+ 
+ /* Button hover effect */
+ .button-container button:hover {
+  background-color: #bb2f9d; /* Darker blue on hover */
+ }
