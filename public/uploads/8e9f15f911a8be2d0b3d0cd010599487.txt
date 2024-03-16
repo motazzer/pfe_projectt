@@ -1,0 +1,171 @@
+@startuml
+class CourseDocument {
+    - id: int
+    - title: string
+    - content: string
+    - User: User
+    - CreatedAt: \DateTimeImmutable
+    - answers: Collection<Answer>
+    - vectors
+    - status: string
+    - filePath: string
+    - quizzes: Collection<Quiz>
+    - summaries: Collection<SummarySheet>
+    + __construct()
+    + getId(): int
+    + getTitle(): string
+    + setTitle(title: string): static
+    + getContent(): string
+    + setContent(content: string): static
+    + getUser(): User
+    + setUser(User: User): static
+    + getCreatedAt(): \DateTimeImmutable
+    + setCreatedAt(CreatedAt: \DateTimeImmutable): static
+    + getAnswers(): Collection<Answer>
+    + addAnswer(answer: Answer): static
+    + removeAnswer(answer: Answer): static
+    + getVectors()
+    + setVectors(vectors): static
+    + getStatus(): string
+    + setStatus(status: string): static
+    + getFilePath(): string
+    + setFilePath(filePath: string): static
+    + getQuizzes(): Collection<Quiz>
+    + addQuiz(quiz: Quiz): static
+    + removeQuiz(quiz: Quiz): static
+    + getSummaries(): Collection<SummarySheet>
+    + addSummary(summary: SummarySheet): static
+    + removeSummary(summary: SummarySheet): static
+}
+
+class User {
+    - id: int
+    - email: string
+    - roles: array
+    - password: string
+    - Firstname: string
+    - Lastname: string
+    - courseDocuments: Collection<CourseDocument>
+    - CreatedAt: \DateTimeImmutable
+    - summaries: Collection<SummarySheet>
+    + __construct()
+    + getId(): int
+    + getEmail(): string
+    + setEmail(email: string): static
+    + getUserIdentifier(): string
+    + getRoles(): array
+    + setRoles(roles: array): static
+    + getPassword(): string
+    + setPassword(password: string): static
+    + eraseCredentials(): void
+    + getFirstname(): string
+    + setFirstname(Firstname: string): static
+    + getLastname(): string
+    + setLastname(Lastname: string): static
+    + getFullName(): string
+    + getCourseDocuments(): Collection<CourseDocument>
+    + addCourseDocument(courseDocument: CourseDocument): static
+    + removeCourseDocument(courseDocument: CourseDocument): static
+    + getUploadedFilesCount(): int
+    + getCreatedAt(): \DateTimeImmutable
+    + setCreatedAt(CreatedAt: \DateTimeImmutable): static
+    + getSummaries(): Collection<SummarySheet>
+    + addSummary(summary: SummarySheet): static
+    + removeSummary(summary: SummarySheet): static
+}
+
+class SummarySheet {
+    - id: int
+    - title: string
+    - content: string
+    - user: User
+    - courseDocument: CourseDocument
+    - createdAt: \DateTimeImmutable
+    + getId(): int
+    + getTitle(): string
+    + setTitle(title: string): static
+    + getContent(): string
+    + setContent(content: string): static
+    + getUser(): User
+    + setUser(user: User): static
+    + getCourseDocument(): CourseDocument
+    + setCourseDocument(courseDocument: CourseDocument): static
+    + getCreatedAt(): \DateTimeImmutable
+    + setCreatedAt(createdAt: \DateTimeImmutable): static
+}
+
+class Question {
+    - id: int
+    - content: string
+    - user: User
+    - answers: Collection<Answer>
+    + __construct()
+    + getId(): int
+    + getContent(): string
+    + setContent(content: string): static
+    + getUser(): User
+    + setUser(user: User): static
+    + getAnswers(): Collection<Answer>
+    + addAnswer(answer: Answer): static
+    + removeAnswer(answer: Answer): static
+}
+
+class Quiz {
+    - id: int
+    - title: string
+    - courseDocument: CourseDocument
+    - quizQuestions: Collection<QuizQuestion>
+    + __construct()
+    + getId(): int
+    + getTitle(): string
+    + setTitle(title: string): static
+    + getCourseDocument(): CourseDocument
+    + setCourseDocument(courseDocument: CourseDocument): static
+}
+
+class Answer {
+    - id: int
+    - content: string
+    - question: Question
+    - courseDocument: CourseDocument
+    + getId(): int
+    + getContent(): string
+    + setContent(content: string): static
+    + getQuestion(): Question
+    + setQuestion(question: Question): static
+    + getCourseDocument(): CourseDocument
+    + setCourseDocument(courseDocument: CourseDocument): static
+}
+
+class QuizQuestion {
+    - id: int
+    - quiz: Quiz
+    - quizReponses: Collection<QuizResponse>
+    + getId(): int
+    + getQuiz(): Quiz
+    + setQuiz(quiz: Quiz): static
+    + getQuizResponses(): Collection<QuizResponse>
+    + addQuizResponse(quizResponse: QuizResponse): static
+    + removeQuizResponse(quizResponse: QuizResponse): static
+}
+
+class QuizResponse {
+    - id: int
+    - quizQuestion: QuizQuestion
+    - content: string
+    + getId(): int
+    + getQuizQuestion(): QuizQuestion
+    + setQuizQuestion(quizQuestion: QuizQuestion): static
+    + getContent(): string
+    + setContent(content: string): static
+}
+
+User "1" -- "0..*" CourseDocument : owns
+User "1" -- "0..*" Question : asks
+CourseDocument "0..*" -- "0..*" Answer : contains
+CourseDocument "1" -- "0..*" Quiz : has
+Question "0..*" -- "0..*" Answer : has
+CourseDocument "1" -- "0..*" SummarySheet : has
+Quiz "1" -- "0..*" QuizQuestion : contains
+QuizQuestion "1" -- "0..*" QuizResponse : has
+@enduml

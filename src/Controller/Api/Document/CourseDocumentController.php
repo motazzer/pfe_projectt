@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\Document;
 
 use App\Entity\CourseDocument;
 use App\Message\ExtractCourseDocumentContent;
 use App\Repository\CourseDocumentRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\Persistence\ManagerRegistry;
-
 
 
 class CourseDocumentController extends AbstractController{
@@ -32,10 +31,6 @@ class CourseDocumentController extends AbstractController{
     public function upload(Request $request,MessageBusInterface $bus): Response
     {
         $file = $request->files->get('file');
-
-        if (!$file) {
-            return $this->json(['message' => 'No file uploaded'], Response::HTTP_BAD_REQUEST);
-        }
 
         $uploadsDirectory = $this->getParameter('uploads_directory');
         $fileName = md5(uniqid()) . '.' . $file->guessExtension();

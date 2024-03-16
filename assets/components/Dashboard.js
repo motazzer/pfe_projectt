@@ -14,6 +14,15 @@ function Dashboard() {
 
     const handleUpload = async () => {
         try {
+            const allowedTypes = ['pdf', 'docx', 'txt', 'html'];
+            const fileExtension = selectedFile.name.split('.').pop().toLowerCase();
+
+            if (!allowedTypes.includes(fileExtension)) {
+                console.error('Unsupported file type');
+                alert('Unsupported file type. Please upload a PDF, DOCX, TXT, or HTML file.');
+                return;
+            }
+
             const formData = new FormData();
             formData.append('file', selectedFile);
 
@@ -54,10 +63,13 @@ function Dashboard() {
             <p>Welcome to the dashboard!</p>
             {uploadSuccess && <p>File uploaded successfully!</p>}
             <div>
-                <input type="file" onChange={handleFileChange} />
+                <input type="file" onChange={handleFileChange}/>
                 <button onClick={handleUpload} disabled={!selectedFile}>
                     Upload
                 </button>
+                <p style={{color: 'gray', fontSize: '0.8em', marginTop: '0.5em'}}>
+                    (Accepted file types: PDF, DOCX, TXT, HTML)
+                </p>
             </div>
         </div>
     );

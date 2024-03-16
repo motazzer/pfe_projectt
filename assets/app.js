@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Routes, Navigate} from 'react-router-dom';
 import './styles/app.scss'
 import Home from './components/home' ;
-import Signup from './components/Signup';
-import Login from "./components/login/Login";
+import Signup from './components/security/signup/Signup';
+import Login from "./components/security/login/Login";
 import Dashboard from "./components/Dashboard";
 import Quiz from './components/Quiz';
 import Chat from './components/Chat';
@@ -15,7 +15,7 @@ import ManageUsers from './components/Administrator/ManageUsers';
 import ManageDocuments from './components/Administrator/ManageDocuments';
 import UpdateDocument from './components/Administrator/UpdateDocument';
 import DetailsDocument from './components/Administrator/detailsdocument';
-
+import UpdateProfile from './components/profile/UpdateProfile';
 
 const isAuthenticated = () => {
     return localStorage.getItem('token') !== null;
@@ -34,6 +34,7 @@ ReactDOM.render(
             <Route path="/quiz" element={<Quiz />} />
             <Route path="/chat" element={<Chat />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/update-profile" element={<UpdateProfile/>} />
             <Route path="/summarysheet" element={<Summary />} />
             <Route path="/administrator" element={<AdminHomepage/>} />
             <Route path="/administrator/manage-users" element={<ManageUsers/>} />

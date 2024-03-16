@@ -90,10 +90,11 @@ const ManageDocuments = () => {
 
     const formatContent = (content) => {
         if (content) {
-            const lines = content.split('\n');
-            return lines.slice(0, 2).join('\n');
+            let truncatedContent = '' ;
+            const words = content.split(/\s+/);
+            truncatedContent = words.slice(0,7).join(' ');
+            return truncatedContent;
         }
-        return '';
     };
 
     const filteredDocuments = documents.filter(document =>

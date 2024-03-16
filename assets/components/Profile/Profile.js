@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../Navbar';
 
 const Profile = () => {
@@ -39,6 +40,9 @@ const Profile = () => {
             <p>Email: {userData.email}</p>
             <p>Joined At: {userData.createdAt}</p>
             <p>Uploaded Files Count: {userData.uploadedFilesCount}</p>
+            <Link to="/update-profile">
+                <button>Update Profile</button>
+            </Link>
         </div>
     );
 }

@@ -45,7 +45,10 @@ class RegisterController extends AbstractController
 
         $getPassword = $newUser->getPassword();
         $newUser->setPassword($userPasswordHasher->hashPassword($newUser,$getPassword));
-        $newUser->setRoles(['ROLE_USER']);
+        $roles = $newUser->getRoles();
+        $roles[] = 'ROLE_USER';
+        $newUser->setRoles(array_unique($roles));
+
         $newUser->setCreatedAt(new \DateTimeImmutable());
         $entityManager->persist($newUser);
         $entityManager->flush();

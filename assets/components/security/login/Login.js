@@ -1,19 +1,22 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
 
 function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         if (isAuthenticated()) {
-            navigate('/dashboard');
+            const userRole = getUserRole();
+            if (userRole === 'ROLE_ADMIN') {
+                navigate('/administrator');
+            } else if (userRole === 'ROLE_USER') {
+                navigate('/dashboard');
+            }
         }
     }, []);
 
@@ -39,15 +42,19 @@ function Login() {
             }
 
             const responseData = await response.json();
-
             const token = responseData.token;
 
             localStorage.setItem('token', token);
 
-            navigate('/dashboard');
+            const userRole = getUserRole();
+            if (userRole === 'ROLE_ADMIN') {
+                navigate('/administrator');
+            } else if (userRole === 'ROLE_USER') {
+                navigate('/dashboard');
+            }
         } catch (error) {
             console.error('Error:', error);
-            // Handle error hereCD
+            setErrorMessage('Invalid email or password. Please try again.');
         }
     };
 
@@ -63,13 +70,22 @@ function Login() {
                     <label htmlFor="password">Password:</label>
                     <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
                 </div>
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <button type="submit">Login</button>
             </form>
         </div>
-
     );
 }
+
 const isAuthenticated = () => {
     return localStorage.getItem('token') !== null;
 };
+
+const getUserRole = () => {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken.roles[0];
+};
+
 export default Login;

@@ -8,13 +8,28 @@ function Signup() {
         email: '',
         password: '',
     });
+    const [passwordError, setPasswordError] = useState('');
     const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
+
+    const validatePassword = (password) => {
+        // Regular expression for password validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        return passwordRegex.test(password);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate password
+        if (!validatePassword(formData.password)) {
+            setPasswordError('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number');
+            return;
+        }
 
         try {
             const response = await fetch('/register', {
@@ -52,8 +67,8 @@ function Signup() {
                 </div>
                 <div>
                     <label htmlFor="password">Password:</label>
-                    <input type="password" id="password" name="password" value={formData.password}
-                           onChange={handleChange}/>
+                    <input type="password" id="password" name="password" value={formData.password} onChange={handleChange}/>
+                    {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
                 </div>
                 <button type="submit">Signup</button>
             </form>

@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\Profile;
 
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
@@ -34,8 +32,8 @@ class UserController extends AbstractController
         return $this->json($usersData);
     }
 
-    #[Route('/api/update-user', name: 'user_update', methods: ['PUT'])]
-    public function updateUserProfile(Request $request): JsonResponse
+    #[Route('/api/update-profile', name: 'user_update', methods: ['PUT'])]
+    public function updateUserProfile(Request $request,UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
         $user = $this->getUser();
         $data = json_decode($request->getContent(), true);
@@ -46,13 +44,21 @@ class UserController extends AbstractController
         if (isset($data['lastname'])) {
             $user->setLastname($data['lastname']);
         }
-        if (isset($data['email'])) {
-            $user->setEmail($data['email']);
+
+        if (isset($data['currentPassword']) && isset($data['newPassword'])) {
+            $currentPassword = $data['currentPassword'];
+            $newPassword = $data['newPassword'];
+
+            if ($passwordHasher->isPasswordValid($user,$currentPassword)) {
+                $encodedPassword = $passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($encodedPassword);
+            } else {
+                return $this->json(['error' => 'Current password is incorrect'], 400);
+            }
         }
 
-        $user->setPassword($data['password']);
-
         $this->entityManager->flush();
+
         return $this->json(['message' => 'Profile updated successfully']);
     }
 
