@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import './Dashboard.css'
+import Navbar from '../../components/navbar/navbar';
 
 const Dashboard = () => {
-    const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadSuccess, setUploadSuccess] = useState(false);
 
@@ -50,25 +49,24 @@ const Dashboard = () => {
         }
     };
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        navigate('/');
-    };
 
     return (
-        <div>
-            <button onClick={handleLogout}>Logout</button>
-            <h2>Dashboard</h2>
-            <p>Welcome to the dashboard!</p>
-            {uploadSuccess && <p>File uploaded successfully!</p>}
-            <div>
-                <input type="file" onChange={handleFileChange}/>
-                <button onClick={handleUpload} disabled={!selectedFile}>
-                    Upload
-                </button>
-                <p style={{color: 'gray', fontSize: '0.8em', marginTop: '0.5em'}}>
-                    (Accepted file types: PDF, DOCX, TXT, HTML)
-                </p>
+        <div className="dashboard">
+            <Navbar/>
+            <div className="dashboard-content">
+
+                <h2>Dashboard</h2>
+                <p>Welcome to the dashboard!</p>
+                {uploadSuccess && <p className="success-message">File uploaded successfully!</p>}
+                <div className="upload-section">
+                    <input type="file" onChange={handleFileChange} className="file-input"/>
+                    <button className="upload-button" onClick={handleUpload} disabled={!selectedFile}>
+                        Upload
+                    </button>
+                    <p style={{color: 'gray', fontSize: '0.8em', marginTop: '0.5em'}}>
+                        (Accepted file types: PDF, DOCX, TXT, HTML)
+                    </p>
+                </div>
             </div>
         </div>
     );

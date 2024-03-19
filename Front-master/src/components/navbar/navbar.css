@@ -1,3 +1,49 @@
+
+.navbar {
+   display: flex;
+   justify-content: center; /* Center the navbar content */
+   align-items: center;
+   background-color: #333;
+   color: #fff;
+   padding: 10px 20px;
+   position: fixed;
+   top: 0;
+   left: 0;
+   width:100%;
+   z-index: 1000;
+}
+
+.navbar-brand h2 {
+   margin: 0;
+}
+
+.navbar-menu {
+   list-style: none;
+   display: flex;
+   gap: 20px;
+   justify-content: center; /* Center the menu items */
+   width: 600%; /* Ensure the menu takes the full width */
+}
+.navbar-menu button {
+   width: 10%; /* Adjusted width to fit within the form */
+   padding: 5px; /* Increased padding for a larger button */
+   border-radius: 6px; /* Rounded corners for a modern look */
+
+   background-color: #e7ddec;
+   color: #000000;
+   border: none;
+   cursor: pointer;
+}
+
+.navbar-menu li a {
+   color: #fff;
+   text-decoration: none;
+   transition: color 0.3s ease;
+}
+
+.navbar-menu li a:hover {
+   color: #ddd;
+}
 .root {
    width: 80%;
    margin-inline: auto;
@@ -13,66 +59,4 @@
    backdrop-filter: blur(5.5px);
    display: flex;
    flex-direction: row;
-}
-
-.frame1, .frame3 {
-   width: min-content;
-   height: min-content;
-   place-content: center;
-   align-items: center;
-   gap: 54px;
-   padding: 10px;
-   display: flex;
-   flex-direction: row;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-   .root {
-       flex-direction: column;
-       width: 100%;
-       padding: 10px;
-   }
-
-   .frame1, .frame3 {
-       flex-direction: column;
-       gap: 20px;
-       padding: 5px;
-   }
-
-   .frame2, .frame32 {
-       padding: 8px 16px;
-   }
-}
-
-.home, .help, .reservation, .contactUs, .signIn, .signUp {
-   color: #000000;
-   font-size: 16px;
-   font-weight: 600;
-   font-family: 'Roboto', sans-serif; /* Changed the font to Roboto */
-   letter-spacing: 0.06em;
-   text-transform: capitalize;
-   width: min-content;
-   height: min-content;
-   text-align: center;
-   align-items: center;
-   white-space: nowrap;
-   flex-direction: column;
-   text-decoration: none; /* Add this line to remove underline */
-   opacity: 0.8; /* Set the same opacity for all elements */
-}
-
-.frame2, .frame32 {
-   width: min-content;
-   height: min-content;
-   padding: 12px 32px;
-   border-radius: 10px;
-}
-
-.frame32 {
-   background-color: #346eec;
-}
-
-.signUp {
-   color: #fff;
 }
