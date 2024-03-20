@@ -104,42 +104,40 @@ input[type="text"] {
     font-size: 16px;
 }
 
-.table-container {
-    overflow-y: auto;
-    max-height: 470px;
-    width: 100%;
-}
-
-.table-container table {
-    width: 100%;
+table {
+    width: 100%; /* Make the table take the full width */
+    margin: 20px auto;
     border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #fff;
 }
 
-.table-container th,
-.table-container td {
+th, td {
     border: 1px solid #ddd;
     padding: 12px;
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-.table-container th {
+th {
     background-color: #f2f2f2;
+    font-weight: bold;
 }
 
-.table-container tbody tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-.table-container tbody tr:hover {
-    background-color: #dddddd;
+tr:hover {
+    background-color: #f2f2f2;
 }
 
 .action-button {
     padding: 8px;
     cursor: pointer;
-    background-color: #FFFFFF;
-    color: #b02a37;
+    background-color: #45a049;
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
     border: none;
@@ -148,7 +146,7 @@ input[type="text"] {
 }
 
 .action-button:hover {
-    background-color: #FFFFFF;
+    background-color: #3e8e41;
 }
 
 .pagination {
@@ -174,7 +172,6 @@ input[type="text"] {
     background-color: #444;
 }
 
-
 /* Responsive Styles */
 @media (max-width: 768px) {
     .admin-dashboard {
@@ -199,6 +196,108 @@ input[type="text"] {
         overflow-x: auto;
         white-space: nowrap;
     }
+}
+
+.dropdown-content a button {
+    background-color: transparent; /* Make the background transparent */
+    cursor: pointer;
+}
+
+.delete{
+    color:#b02a37;
+}
+.detail{
+    color:#0a53be;
+}
+.update{
+    color:#4d5154;
+}
+.verify{
+    color:#20c997;
+}
+
+.dropbtn {
+    background-color: #444;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: flex; /* Change display to flex */
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: flex-start; /* Align items to the start of the container */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 56px;
+    top: -11px;
+    height: 80px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    flex: 1; /* Make each item take up equal space */
+    text-align: center; /* Center the text */
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: flex; /* Ensure it's displayed as flex */
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #444;
+}
+
+.table-container {
+    overflow-y: auto;
+    max-height: 350px; /* Adjust as needed */
+    width: 100%;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th,
+.table-container td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+.table-container th {
+    background-color: #f2f2f2;
+}
+
+.table-container tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-container tbody tr:hover {
+    background-color: #dddddd;
 }
 .py-5 {
     padding-top: 2rem !important; /* Reduce top padding */

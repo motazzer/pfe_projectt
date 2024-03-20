@@ -57,7 +57,9 @@ const AdminHomepage = () => {
 <>
         <div className="admin-dashboard">
             <div className="sidebar">
-                <h2>Admin Dashboard</h2>
+                <ul>
+                    <li><big><big><Link to="/administrator">Dashboard</Link></big></big></li>
+                </ul>
                 <ul>
                     <li><Link to="/administrator/manage-users">Manage Users</Link></li>
                     <li><Link to="/administrator/manage-documents">Manage Documents</Link></li>
@@ -79,15 +81,16 @@ const AdminHomepage = () => {
                     </button>
                     </div>
                     {uploadSuccess && <p className="success-message">File uploaded successfully!</p>}
-                    <p className="file-name">{selectedFile ? selectedFile.name : 'No file selected'}</p>
-                    <p className="file-type-info">(Accepted file types: PDF, DOCX, TXT, HTML)</p>
+                    <big><p className="file-name">{selectedFile ? selectedFile.name : 'No file selected'}</p></big>
+                    <big><big><p className="file-type-info">(Accepted file types: PDF, DOCX, TXT, HTML)</p></big></big>
                 </div>
             </div>
         </div>
-    <footer className="admin-footer">
-        <p>&copy; 2023 IASTUDY. All rights reserved.</p>
-        <p><Link to="/privacy-policy">Privacy Policy</Link></p>
-    </footer>
+        <footer className="py-5 bg-dark">
+            <div className="container">
+                <p className="m-0 text-center text-white">Copyright &copy; IASTUDY 2023</p>
+            </div>
+        </footer>
 </>
     );
 }

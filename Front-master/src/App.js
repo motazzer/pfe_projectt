@@ -6,14 +6,13 @@ import Login from "./security/login";
 import Dashboard from "./user/dashboard/Dashboard";
 import Profile from "./Profile/Profile";
 import UpdateProfile from "./Profile/UpdateProfile";
-import AdminHomepage from "./Administrator/homepage/AdminHomepage";
-import ManageUsers from "./Administrator/manageuser/ManageUsers";
-import ManageDocuments from "./Administrator/ManageDocuments";
-import UpdateDocument from "./Administrator/UpdateDocument";
-import DetailsDocument from "./Administrator/detailsdocument";
+import AdminHomepage from "./Administrator/homepage/adminHomepage";
 import Profileadmin from "./Administrator/pofileadmin/profileadmin";
 import UpdateProfileadmin from "./Administrator/pofileadmin/updateprofileadmin";
-
+import ManageDocuments from "./Administrator/managedocument/ManageDocuments";
+import DetailsDocument from "./Administrator/detailsdocument";
+import ManageUsers from "./Administrator/manageuser/ManageUsers";
+import UpdateDocument from "./Administrator/UpdateDocument";
 
 const isAuthenticated = () => {
     return localStorage.getItem('token') !== null;
@@ -39,7 +38,6 @@ function App() {
             <Route path="/administrator/manage-documents" element={<ManageDocuments/>} />
             <Route path="/update-document/:id" element={<UpdateDocument/>} />
             <Route path="/details-document/:id" element={<DetailsDocument/>} />
-
 
             <Route path="*" element={<Navigate to="/" />} />
         </Routes>
