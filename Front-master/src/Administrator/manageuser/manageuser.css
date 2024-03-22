@@ -249,3 +249,31 @@ input[type="text"] {
     --bs-text-opacity: 1;
     color: rgba(255, 255, 255, 0.5) !important;
 }
+
+.sidebar-heading {
+    text-transform: uppercase !important;
+}
+.sidebar .sidebar-heading {
+    text-align: center;
+    padding: 0 1rem;
+    font-weight: 800;
+    font-size: 0.65rem;
+}
+.sidebar .sidebar-heading {
+    text-align: left;
+}
+.sidebar-light .sidebar-heading {
+    color: #b7b9cc;
+}
+.sidebar-dark .sidebar-heading {
+    color: rgba(255, 255, 255, 0.4);
+}
+.sidebar hr.sidebar-divider {
+    margin: 0 1rem 1rem;
+}
+.sidebar-light hr.sidebar-divider {
+    border-top: 1px solid #eaecf4;
+}
+.sidebar-dark hr.sidebar-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}

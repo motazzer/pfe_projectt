@@ -65,9 +65,9 @@ Encore
     // uncomment if you use React
     .enableReactPreset()
 
-    .enablePostCssLoader()
+    //.enablePostCssLoader()
 
-    .enableSassLoader()
+    //.enableSassLoader()
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())

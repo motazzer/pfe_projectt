@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './AdminHomepage.css';
 
 const AdminHomepage = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [uploadSuccess, setUploadSuccess] = useState(false);
+    const [userCount, setUserCount] = useState(0);
+    const [documentCount, setDocumentCount] = useState(0);
 
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -34,7 +36,7 @@ const AdminHomepage = () => {
                 throw new Error('JWT token not found');
             }
 
-            const response = await fetch('/api/course-documents/upload', {
+            const response = await fetch('https://127.0.0.1:8000/api/course-documents/upload', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -53,14 +55,49 @@ const AdminHomepage = () => {
         }
     };
 
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    throw new Error('JWT token not found');
+                }
+
+                const userResponse = await fetch('https://127.0.0.1:8000/api/count-users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const userJson = await userResponse.json();
+                setUserCount(userJson.userCount);
+
+                const documentResponse = await fetch('https://127.0.0.1:8000/api/count-documents', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+
+                const documentJson = await documentResponse.json();
+                setDocumentCount(documentJson.documentCount);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
     return (
-<>
+        <>
         <div className="admin-dashboard">
             <div className="sidebar">
                 <ul>
                     <li><big><big><Link to="/administrator">Dashboard</Link></big></big></li>
                 </ul>
                 <ul>
+                    <div className="sidebar-heading">Interface</div>
+                    <hr className="sidebar-divider"/>
                     <li><Link to="/administrator/manage-users">Manage Users</Link></li>
                     <li><Link to="/administrator/manage-documents">Manage Documents</Link></li>
                 </ul>
@@ -74,11 +111,30 @@ const AdminHomepage = () => {
                     </ul>
                 </header>
                 <div className="content">
+                    <div className="row">
+                        <div className="column">
+                            <div className="card">
+                                <div className="containe">
+                                    <h4><b>USERS</b></h4>
+                                    <p>COUNT: {userCount}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="column">
+                            <div className="card">
+                                <div className="containe">
+                                    <h4><b>DOCUMENTS</b></h4>
+                                    <p>COUNT: {documentCount}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
                     <div className="upload-container">
-                    <input type="file" onChange={handleFileChange} className="file-input"/>
-                    <button className="upload-button" onClick={handleUpload} disabled={!selectedFile}>
-                        Upload
-                    </button>
+                        <input type="file" onChange={handleFileChange} className="file-input"/>
+                        <button className="upload-button" onClick={handleUpload} disabled={!selectedFile}>
+                            Upload
+                        </button>
                     </div>
                     {uploadSuccess && <p className="success-message">File uploaded successfully!</p>}
                     <big><p className="file-name">{selectedFile ? selectedFile.name : 'No file selected'}</p></big>
@@ -86,12 +142,12 @@ const AdminHomepage = () => {
                 </div>
             </div>
         </div>
-        <footer className="py-5 bg-dark">
-            <div className="container">
-                <p className="m-0 text-center text-white">Copyright &copy; IASTUDY 2023</p>
-            </div>
-        </footer>
-</>
+            <footer className="py-5 bg-dark">
+                <div className="container">
+                    <p className="m-0 text-center text-white">Copyright &copy; IASTUDY 2023</p>
+                </div>
+            </footer>
+        </>
     );
 }
 

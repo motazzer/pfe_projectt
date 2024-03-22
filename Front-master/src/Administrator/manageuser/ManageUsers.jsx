@@ -81,13 +81,15 @@ const ManageUsers = () => {
                         <li><big><big><Link to="/administrator">Dashboard</Link></big></big></li>
                     </ul>
                     <ul>
+                        <div className="sidebar-heading">Interface</div>
+                        <hr className="sidebar-divider"/>
                         <li><Link to="/administrator/manage-users">Manage Users</Link></li>
                         <li><Link to="/administrator/manage-documents">Manage Documents</Link></li>
                     </ul>
                 </div>
                 <div className="main-content">
                     <header>
-                        <h1>Welcome Admin!</h1>
+                    <h1>Welcome Admin!</h1>
                         <ul>
                             <li><Link to="/profile-admin">Profile</Link></li>
                             <li><Link to="/" onClick={handleLogout}>Logout</Link></li>

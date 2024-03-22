@@ -5,8 +5,9 @@ namespace App\MessageHandler;
 use App\Entity\CourseDocument;
 use App\Message\TransformTextToVectors;
 use Doctrine\ORM\EntityManagerInterface;
+use GuzzleHttp\Exception\RequestException;
+use OpenAI\Client;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-
 
 final class TransformTextToVectorsHandler implements MessageHandlerInterface
 {
@@ -22,9 +23,9 @@ final class TransformTextToVectorsHandler implements MessageHandlerInterface
         $document = $this->entityManager->getRepository(CourseDocument::class)->find($message->getDocumentId());
 
         $cleanedText = $this->cleanText($document->getContent());
-        $vectors = $this->transformTextToVectors($cleanedText);
+        $embeddings = $this->transformTextToVectors($cleanedText);
 
-        $document->setVectors($vectors);
+        $document->setVectors($embeddings);
         $this->entityManager->flush();
     }
 
@@ -43,34 +44,32 @@ final class TransformTextToVectorsHandler implements MessageHandlerInterface
         return $lines;
     }
 
-    private function transformTextToVectors(array $tokens): string
+    private function transformTextToVectors(array $texts): array
     {
-        $binaryData = random_bytes(10);
-        return $binaryData;
-    }
-    /**
-    private function transformTextToVectors(string $content): string
-    {
-    // Placeholder for transforming text to vectors
-    /**
-    $apiKey = $_ENV['OPENAI_API_KEY'] ?? null;
-    if (!$apiKey) {
-    throw new \RuntimeException('OpenAI API key not found in environment variables.');
-    }
-    $client = OpenAI::client($apiKey);
+        $apiKey = $_ENV['OPENAI_API_KEY'] ?? null;
+        if (!$apiKey) {
+            throw new \RuntimeException('OpenAI API key not found in environment variables.');
+        }
+        $client = new Client($apiKey);
 
-    $response = $client->embeddings()->create([
-    'model' => 'text-similarity-babbage-001',
-    'input' => $content,
-    ]);
-    $vectors = [];
-    foreach ($response->embeddings as $embedding) {
-    $vectors[] = $embedding->embedding;
+        $embeddings = [];
+        foreach ($texts as $text) {
+            try {
+                $response = $client->embeddings()->create([
+                    'model' => 'text-similarity-babbage-001',
+                    'input' => $text,
+                ]);
+
+                foreach ($response->embeddings as $embedding) {
+                    $embeddings[] = $embedding->embedding;
+                }
+
+            } catch (RequestException $e) {
+                continue;
+            }
+        }
+
+        return $embeddings;
     }
-    return $vectors;
-    ********************
-$binaryData = random_bytes(10);
-return $binaryData;
-}
-* */
+
 }

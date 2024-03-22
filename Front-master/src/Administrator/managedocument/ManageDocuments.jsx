@@ -123,6 +123,8 @@ const ManageDocuments = () => {
                         <li><big><big><Link to="/administrator">Dashboard</Link></big></big></li>
                     </ul>
                     <ul>
+                        <div className="sidebar-heading">Interface</div>
+                        <hr className="sidebar-divider"/>
                         <li><Link to="/administrator/manage-users">Manage Users</Link></li>
                         <li><Link to="/administrator/manage-documents">Manage Documents</Link></li>
                     </ul>

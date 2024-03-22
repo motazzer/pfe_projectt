@@ -11,6 +11,8 @@ doctrine:
             charset: utf8
             collate: utf8_unicode_ci
         use_savepoints: true
+        types:
+            vector: App\Doctrine\DBAL\Types\VectorType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

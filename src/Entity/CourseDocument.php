@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\CourseDocumentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use App\Doctrine\DBAL\Types\VectorType;
+
 
 #[ORM\Entity(repositoryClass: CourseDocumentRepository::class)]
 class CourseDocument
@@ -35,22 +36,20 @@ class CourseDocument
     #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'documents')]
     private Collection $questions;
 
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $vectors = null;
-
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $status = 'unverified' ;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
 
+    #[ORM\Column(type: 'vector', nullable: true)]
+    private $vectors = null;
 
-
+    
     public function __construct()
     {
         $this->questions = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -133,17 +132,6 @@ class CourseDocument
         return $this;
     }
 
-    public function getVectors()
-    {
-        return $this->vectors;
-    }
-
-    public function setVectors($vectors): static
-    {
-        $this->vectors = $vectors;
-
-        return $this;
-    }
 
     public function getStatus(): ?string
     {
@@ -172,6 +160,18 @@ class CourseDocument
     public function getUploadedByEmail(): ?string
     {
         return $this->User->getEmail();
+    }
+
+    public function getVectors(): ?array
+    {
+        return $this->vectors;
+    }
+
+    public function setVectors(?array $vectors): static
+    {
+        $this->vectors = $vectors;
+
+        return $this;
     }
 
 }

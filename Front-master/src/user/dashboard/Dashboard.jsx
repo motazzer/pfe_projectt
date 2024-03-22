@@ -30,7 +30,7 @@ const Dashboard = () => {
                 throw new Error('JWT token not found');
             }
 
-            const response = await fetch('/api/course-documents/upload', {
+            const response = await fetch('https://127.0.0.1:8000/api/course-documents/upload', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
