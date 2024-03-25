@@ -27,7 +27,7 @@ class RegisterController extends AbstractController
         if ($this->getUser()) {
             $data = ['message' => 'You must log out to access the registration page'];
             $jsonContent = $serializer->serialize($data, 'json');
-            return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED, ['Content-Type' => 'application/json']);
+            return new JsonResponse($jsonContent, Response::HTTP_UNAUTHORIZED, ['Content-Types' => 'application/json']);
         }
 
         $newUser = $serializer->deserialize($request->getContent(), User::class, 'json');
@@ -57,7 +57,7 @@ class RegisterController extends AbstractController
         return new JsonResponse(
             ['status' => 'success', 'message' => 'Your account has been created.'],
             Response::HTTP_OK,
-            ['Content-Type' => 'application/json']
+            ['Content-Types' => 'application/json']
         );    }
 
 }

@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
+
 use App\Repository\CourseDocumentRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Doctrine\DBAL\Types\VectorType;
 
 
 #[ORM\Entity(repositoryClass: CourseDocumentRepository::class)]
@@ -24,7 +22,6 @@ class CourseDocument
     #[ORM\Column(length: 16777215, nullable: true)]
     private ?string $content = null;
 
-
     #[ORM\ManyToOne(inversedBy: 'courseDocuments')]
     #[Groups(['course_document'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,23 +30,12 @@ class CourseDocument
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: Question::class, mappedBy: 'documents')]
-    private Collection $questions;
-
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $status = 'unverified' ;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $filePath = null;
 
-    #[ORM\Column(type: 'vector', nullable: true)]
-    private $vectors = null;
-
-    
-    public function __construct()
-    {
-        $this->questions = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -80,7 +66,6 @@ class CourseDocument
         return $this;
     }
 
-
     public function getUser(): ?User
     {
         return $this->User;
@@ -101,33 +86,6 @@ class CourseDocument
     public function setCreatedAt(\DateTimeImmutable $CreatedAt): static
     {
         $this->CreatedAt = $CreatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Question>
-     */
-    public function getQuestions(): Collection
-    {
-        return $this->questions;
-    }
-
-    public function addQuestion(Question $question): static
-    {
-        if (!$this->questions->contains($question)) {
-            $this->questions->add($question);
-            $question->addDocument($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): static
-    {
-        if ($this->questions->removeElement($question)) {
-            $question->removeDocument($this);
-        }
 
         return $this;
     }
@@ -162,16 +120,5 @@ class CourseDocument
         return $this->User->getEmail();
     }
 
-    public function getVectors(): ?array
-    {
-        return $this->vectors;
-    }
-
-    public function setVectors(?array $vectors): static
-    {
-        $this->vectors = $vectors;
-
-        return $this;
-    }
 
 }

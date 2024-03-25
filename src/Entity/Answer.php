@@ -17,9 +17,9 @@ class Answer
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Question $question = null;
+
 
     public function getId(): ?int
     {
@@ -49,4 +49,5 @@ class Answer
 
         return $this;
     }
+
 }

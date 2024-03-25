@@ -24,17 +24,10 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToMany(targetEntity: Answer::class, mappedBy: 'question', cascade:["persist", "remove"])]
-    private Collection $answers;
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?answer $answer = null;
 
-    #[ORM\ManyToMany(targetEntity: CourseDocument::class, inversedBy: "questions")]
-    private Collection $documents;
-
-    public function __construct()
-    {
-        $this->answers = new ArrayCollection();
-        $this->documents = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -65,57 +58,16 @@ class Question
         return $this;
     }
 
-    /**
-     * @return Collection<int, Answer>
-     */
-    public function getAnswers(): Collection
+    public function getAnswer(): ?answer
     {
-        return $this->answers;
+        return $this->answer;
     }
 
-    public function addAnswer(Answer $answer): static
+    public function setAnswer(answer $answer): static
     {
-        if (!$this->answers->contains($answer)) {
-            $this->answers->add($answer);
-            $answer->setQuestion($this);
-        }
+        $this->answer = $answer;
 
         return $this;
     }
 
-    public function removeAnswer(Answer $answer): static
-    {
-        if ($this->answers->removeElement($answer)) {
-            // set the owning side to null (unless already changed)
-            if ($answer->getQuestion() === $this) {
-                $answer->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, CourseDocument>
-     */
-    public function getDocuments(): Collection
-    {
-        return $this->documents;
-    }
-
-    public function addDocument(CourseDocument $document): static
-    {
-        if (!$this->documents->contains($document)) {
-            $this->documents->add($document);
-        }
-
-        return $this;
-    }
-
-    public function removeDocument(CourseDocument $document): static
-    {
-        $this->documents->removeElement($document);
-
-        return $this;
-    }
 }
